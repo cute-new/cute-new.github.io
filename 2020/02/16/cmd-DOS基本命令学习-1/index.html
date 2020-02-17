@@ -16,7 +16,7 @@
 
 
 
-<title>cmd/DOS基本命令学习 | Salted fish</title>
+<title>cmd/DOS部分基本命令学习 | Salted fish</title>
 
 
 
@@ -115,7 +115,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">cmd/DOS基本命令学习</h1>
+            <h1 class="post-title">cmd/DOS部分基本命令学习</h1>
             
                 <div class="post-meta">
                     
@@ -135,17 +135,28 @@
         <div class="post-content">
             <p>可以运用win+R快捷键搜索cmd打开命令行程序。开始时的默认路径为C:\Users\用户名。若想要切换到其它盘则直接输入想要切换的盘即可。（不区分大小写）</p>
 <center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A01.jpg" class="" title="如图所示"></center>
+如果想要更换目录，就用cd（change direction） 加空格加路径。
 
-<p>​        查看当前目录用dir命令。</p>
-<center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A03.jpg" class="" title="如图所示"></center>
-
-<p>​         如果想要更换目录，就用cd（change direction） 加空格加路径。</p>
 <center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A02.jpg" class="" title="如图所示"></center>
+ 返回到上层目录cd ..，返回多层cd ..`\`..，层数等于..数。
 
-<p>​         返回到上层目录cd ..，返回多层cd ..<code>\</code>..，层数等于<code>\</code>数。</p>
 <center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A04.jpg" class="" title="如图所示"></center>
+![cmd学习4](C:\Users\lenovo\blog\source\_posts\cmd-DOS基本命令学习-1\cmd学习4.JPG)
 
-<p><img src="C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Ccmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1%5Ccmd%E5%AD%A6%E4%B9%A04.JPG" alt="cmd学习4"></p>
+<p>当输入cd .指令时，切换到当前目录，一般情况下没什么意义，不再展示。想要切换到根目录输入cd+<code>/</code>正斜杠即可。</p>
+<center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A05.jpg" class="" title="如图所示"></center>
+如果想查看当前目录用dir命令。
+
+<center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A03.jpg" class="" title="如图所示"></center>
+![](C:\Users\lenovo\blog\source\_posts\cmd-DOS基本命令学习-1\cmd学习3.jpg)
+
+<p>复制文件copy+空格 想要复制的文件+空格 想要复制到的地方，若是在当前目录下，则可以直接输入文件名。（最好加上格式后缀）如果复制的文件想改名，则在后一个路径上增加想改的名字。</p>
+<center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A06.jpg" class="" title="如图所示"></center>
+当用copy命令时，只能复制文件，当指定目录时，则将目录下的文件进行复制。若想复制文件夹需用xcopy，用法相同，会将目录下的文件夹也进行复制，但需要在最后或者xcopy后加/e。
+
+<center><img src="/2020/02/16/cmd-DOS%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E5%AD%A6%E4%B9%A0-1/cmd%E5%AD%A6%E4%B9%A07.jpg" class="" title="如图所示"></center>
+想要重命名文件，可以用rename或者ren进行修改，或者在对文件进行某些操作时修改。同时还有move命令对文件进行移动，replace进行文件替换，用法大同小异。想要深入了解这些指令，只需要输入“指令 /？”就能知道更多。
+
 
         </div>
 
