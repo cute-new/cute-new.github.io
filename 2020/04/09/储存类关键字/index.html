@@ -16,7 +16,7 @@
 
 
 
-<title>hanoi塔尝试解 | Salted fish</title>
+<title>储存类别说明符 | Salted fish</title>
 
 
 
@@ -115,7 +115,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">hanoi塔尝试解</h1>
+            <h1 class="post-title">储存类别说明符</h1>
             
                 <div class="post-meta">
                     
@@ -124,7 +124,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">三月 8, 2020&nbsp;&nbsp;10:52:32</a>
+                        Date: <a href="#">四月 9, 2020&nbsp;&nbsp;7:58:17</a>
                         </span>
                     
                     
@@ -133,27 +133,13 @@
         </header>
 
         <div class="post-content">
-            <p>尝试递归解Hanoi塔的过程。</p>
-<center><img src="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/1.jpg" class="" title="如图所示"></center>
-假设有n层，整个过程总的可以分为三个步骤：将上面的n-1层放在B塔，将第n层放在C塔，再将n-1层移至C塔。
+            <p>auto、extern、static、register、typedef、_Thread_local</p>
+<p>auto。声明一个自动变量，变量随着所在的块的运行创建销毁。当内外有变量同名，内层块会隐藏外层块。一般不写。在C++中用法不同，编写C/C++兼容的程序，最好不要使用。</p>
+<p>static。如果变量具有文件作用域（文件作用域才有外部\内部链接），static表明了变量的链接属性，可以使变量具有内部链接，也就是只能在本文件（一个翻译单元）中使用，不能在其他文件中调用。如果变量具有块作用域，可以使用static使变量具有静态储存期（而不是表明链接属性），此块作用域变量程序运行时一直存在，但是只有在调用所在函数时才能访问该变量。在函数前使用static，函数被定义为静态函数，无法被其他文件调用。不能在函数形参中使用static。</p>
+<p>register。使用register可以向寄存器申请使用寄存器空间，成为寄存器变量，有可能申请失败。寄存器变量和自动变量类似，都是块作用域、无连接和自动储存期。处理寄存器变量较快，但是无法获取寄存器变量地址。</p>
+<p>extern。如果需要引用其他文件具有外部链接的变量，则需要用extern进行引用式声明。而相同文件中引用外部链接的变量，则可以不用再次进行引用式声明。</p>
+<p>typedef。可以对某种类型创建其他名字。在遇到多次较复杂的定义时，可以通过typedef将类型创建新的简单的名字。</p>
 
-<p>而其中，将n-1层放在B层又将重复以上三个步骤，以此类推，直到n=2时。而将n-1层移至C塔同样需要重复以上三个步骤。由此猜想第一和第三个步骤需要进行递归并且相同，只是移动的对象发生改变。所以重点研究第一步。</p>
-<center><img src="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/2.png" class="" title="如图所示"></center>
-因为A、B、C上的盘子会相互转移，为了方便，将塔设置为变量。
-
-<p>从最简单的三个盘子开始。先只讨论第一步，将A上第一个盘子放在C上，第二个盘子放B上，再将C上的盘放到B。可以发现的是，需要先把A塔最上面两个盘移到另外两座塔。为了让最下面那层移到C塔，最上面的盘子只能先放在C塔。这就确定A塔最上层最先应该放哪个塔。当铺开后，需要让C塔上的盘子放到B塔，这比较特殊，因为其他的移动都是从A塔移向其他，所以单独写。</p>
-<center><img src="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/3.png" class="" title="如图所示"></center>
-由此发现，第10行和第5行重复。更改后发现运行的时候会发现有步骤重复了，但运行结果前三次移动没错，所以问题出在第三步。当n==3时才需要进行递归。更正后，运行得到正确答案。
-
-<center><img src="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/4.png" class="" title="如图所示"></center>
-但是只适用于三个盘子，更多盘子时，第三步是缺失的，这时改为了如下代码。
-
-<center><img src="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/5.png" class="" title="如图所示"></center>
-成功了。（其实其中还有许多曲折。）
-
-<p>我搜到的答案如下：</p>
-<center><img src="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/6.png" class="" title="如图所示"></center>
-此图截自https://www.cnblogs.com/liangyan19910818/archive/2011/08/26/2153926.html
         </div>
 
         
@@ -167,7 +153,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/">http://yoursite.com/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/</a></span>
+                        <span><a href="http://yoursite.com/2020/04/09/%E5%82%A8%E5%AD%98%E7%B1%BB%E5%85%B3%E9%94%AE%E5%AD%97/">http://yoursite.com/2020/04/09/%E5%82%A8%E5%AD%98%E7%B1%BB%E5%85%B3%E9%94%AE%E5%AD%97/</a></span>
                     </p>
                 
                 
@@ -204,10 +190,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/04/09/%E5%82%A8%E5%AD%98%E7%B1%BB%E5%85%B3%E9%94%AE%E5%AD%97/">储存类别说明符</a>
             
-            
-            <a class="next" rel="next" href="/2020/02/26/%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/">指针与数组</a>
+            <a class="next" rel="next" href="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/">hanoi塔尝试解</a>
             
         </section>
 
