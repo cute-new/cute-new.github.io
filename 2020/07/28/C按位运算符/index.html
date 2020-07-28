@@ -16,7 +16,7 @@
 
 
 
-<title>储存类别说明符 | Salted fish</title>
+<title>C按位运算符 | Salted fish</title>
 
 
 
@@ -111,11 +111,73 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">储存类别说明符</h1>
+            <h1 class="post-title">C按位运算符</h1>
             
                 <div class="post-meta">
                     
@@ -124,7 +186,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">四月 9, 2020&nbsp;&nbsp;7:58:17</a>
+                        Date: <a href="#">七月 28, 2020&nbsp;&nbsp;15:57:35</a>
                         </span>
                     
                     
@@ -133,12 +195,37 @@
         </header>
 
         <div class="post-content">
-            <p>auto、extern、static、register、typedef、_Thread_local</p>
-<p>auto。声明一个自动变量，变量随着所在的块的运行创建销毁。当内外有变量同名，内层块会隐藏外层块。一般不写。在C++中用法不同，编写C/C++兼容的程序，最好不要使用。</p>
-<p>static。如果变量具有文件作用域（文件作用域才有外部\内部链接），static表明了变量的链接属性，可以使变量具有内部链接，也就是只能在本文件（一个翻译单元）中使用，不能在其他文件中调用。如果变量具有块作用域，可以使用static使变量具有静态储存期（而不是表明链接属性），此块作用域变量程序运行时一直存在，但是只有在调用所在函数时才能访问该变量。在函数前使用static，函数被定义为静态函数，无法被其他文件调用。不能在函数形参中使用static。</p>
-<p>register。使用register可以向寄存器申请使用寄存器空间，成为寄存器变量，有可能申请失败。寄存器变量和自动变量类似，都是块作用域、无连接和自动储存期。处理寄存器变量较快，但是无法获取寄存器变量地址。</p>
-<p>extern。如果需要引用其他文件具有外部链接的变量，则需要用extern进行引用式声明。而相同文件中引用外部链接的变量，则可以不用再次进行引用式声明。</p>
-<p>typedef。可以对某种类型创建其他名字。在遇到多次较复杂的定义时，可以通过typedef将类型创建新的简单的名字。</p>
+            <p><strong>取反</strong> ~：一元运算符。将0和1互换。</p>
+<p><strong>按位与</strong> &amp;：二元运算符。当两个运算对象为1时，运算结果为1，其余为0.</p>
+<p><strong>按位或</strong> |：二元运算符。当两个运算对象有1时，运算结果为1.</p>
+<p><strong>按位异或</strong> ^：二元运算符。当两个运算对象相同时为0，不同时为1.</p>
+<h4 id="运算性质："><a href="#运算性质：" class="headerlink" title="运算性质："></a><strong>运算性质</strong>：</h4><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">&amp;</th>
+<th align="center">|</th>
+<th align="center">^</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">都为0</td>
+<td align="center">为本身</td>
+<td align="center">为本身</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">为本身</td>
+<td align="center">都为1</td>
+<td align="center">与本身相反</td>
+</tr>
+</tbody></table>
+<h4 id="用法："><a href="#用法：" class="headerlink" title="用法："></a><strong>用法</strong>：</h4><p><strong>掩码</strong>：因为0与任何数按位与都为0，所以可以起到遮掩原本对象的效果。可以将所有位中想要隐藏的位&amp;0，想要看见的位&amp;1。</p>
+<p><strong>打开位</strong>（设置位）：因为1与任何数按位或都为1，所以可以打开特定位。</p>
+<p><strong>关闭位</strong>（清空位）：先<del>再&amp;。因为0与任何数按位与都为0，所以用0关闭特定位。但想要用1关闭，则需要取反</del>转化为0再&amp;。</p>
+<p><strong>切换位</strong>：因为1与任何数异或等于这个数取反，所以用1切换特定位。</p>
+<p><strong>检查位的值</strong>：可以用&amp;1检查是否为开，用|0检查是否为关。</p>
 
         </div>
 
@@ -153,7 +240,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/04/09/%E5%82%A8%E5%AD%98%E7%B1%BB%E5%85%B3%E9%94%AE%E5%AD%97/">http://yoursite.com/2020/04/09/%E5%82%A8%E5%AD%98%E7%B1%BB%E5%85%B3%E9%94%AE%E5%AD%97/</a></span>
+                        <span><a href="http://yoursite.com/2020/07/28/C%E6%8C%89%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/">http://yoursite.com/2020/07/28/C%E6%8C%89%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/</a></span>
                     </p>
                 
                 
@@ -190,10 +277,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/07/28/C%E6%8C%89%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/">C按位运算符</a>
             
-            
-            <a class="next" rel="next" href="/2020/03/08/hanoi%E5%A1%94%E5%B0%9D%E8%AF%95%E8%A7%A3/">hanoi塔尝试解</a>
+            <a class="next" rel="next" href="/2020/04/09/%E5%82%A8%E5%AD%98%E7%B1%BB%E5%85%B3%E9%94%AE%E5%AD%97/">储存类别说明符</a>
             
         </section>
 
