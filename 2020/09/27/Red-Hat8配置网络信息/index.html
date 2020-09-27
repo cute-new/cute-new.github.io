@@ -16,7 +16,7 @@
 
 
 
-<title>C预处理器和C库 | Salted fish</title>
+<title>Red Hat8配置网卡信息 | Salted fish</title>
 
 
 
@@ -177,7 +177,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">C预处理器和C库</h1>
+            <h1 class="post-title">Red Hat8配置网卡信息</h1>
             
                 <div class="post-meta">
                     
@@ -186,7 +186,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">八月 27, 2020&nbsp;&nbsp;16:58:58</a>
+                        Date: <a href="#">九月 27, 2020&nbsp;&nbsp;14:55:46</a>
                         </span>
                     
                     
@@ -195,33 +195,16 @@
         </header>
 
         <div class="post-content">
-            <h2 id="C预处理器"><a href="#C预处理器" class="headerlink" title="C预处理器"></a><strong>C预处理器</strong></h2><p>功能：</p>
-<p>在程序编译开始之前进行操作的一段程序。可以删除注释、替换宏、合并（物理）行、进行预处理指令等，不做任何的计算或求值。</p>
-<h3 id="预处理指令"><a href="#预处理指令" class="headerlink" title="预处理指令"></a>预处理指令</h3><h4 id="include"><a href="#include" class="headerlink" title="#include"></a>#include</h4><p>使当前文件包含其他文件。在默认路径的头文件用&lt;&gt;,还可以用””查找当前工作目录或指定目录。</p>
-<h4 id="undef"><a href="#undef" class="headerlink" title="#undef"></a>#undef</h4><p>用于取消已定义的#define指令。（如想使用一个名称，保险起见，用#undef进行取消）</p>
-<h4 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h4><p>和函数中的if类似。#ifdef、#ifndef、#if后接需要判断的内容，然后执行满足条件的预处理指令，#else则执行不满足的预处理指令。最后以#end结尾。</p>
-<p>#ifdef判断其后的宏是否被定义，#ifndef则判断其后的宏是否未被定义，#if后则跟整型常量表达式，且可以与#elif（对应else if）一起使用。</p>
-<h4 id="line和-error"><a href="#line和-error" class="headerlink" title="#line和#error"></a>#line和#error</h4><p>#line可以重置当前行和文件名。</p>
-<p>一般形式：#line ‘行号’ ‘文件名’</p>
-<p>#error让预处理器发出一条错误信息，消息包含指令中的文本。如果可能的话，编译过程应该中断。</p>
-<p>一般形式：#error ‘文本’</p>
-<h4 id="pragma（？）"><a href="#pragma（？）" class="headerlink" title="#pragma（？）"></a>#pragma（？）</h4><h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a><strong>宏</strong></h3><p>一种将被替换的符号，可以代表常量和函数。替换动作称为宏展开，替换内容称为替换体。</p>
-<p>一般形式：#define ‘宏’ ‘替换体’</p>
-<p>宏的替换体看作“记号型字符串”，当替换体连续时则为一个记号，若中间有空白则为多个，两者有区别。</p>
-<p>例：#define x 2*2（一个记号）、#define x 2 * 2（三个记号）</p>
-<p>注：宏默认在””之中不被替换，可以通过在宏开头添加#进行替换。可以通过##将两个记号组合成一个记号（新标识符）。</p>
-<p><strong>宏和函数代表时间和空间的权衡</strong></p>
-<h2 id="C库"><a href="#C库" class="headerlink" title="C库"></a><strong>C库</strong></h2><p>&lt;math.h&gt;</p>
-<p>提供数学函数的原型，pi=4*atan(1)</p>
-<p>&lt;tgmath.h&gt;</p>
-<p>与&lt;math.h&gt;类似，不过提供泛型类型宏</p>
-<p>&lt;stdlib.h&gt;</p>
-<p>提供exit()、atexit()等函数，atexit()将提供的函数加入函数列表，exit()将执行函数列表中的函数然后结束程序。main()返回系统时将会自动执行exit，即不用写入exit。</p>
-<p>&lt;assert.h&gt;</p>
-<p>提供assert()检查参数是否正确，出现错误将显示错误信息。</p>
-<p>&lt;limits.h&gt;</p>
-<p>&lt;stdarg.h&gt;</p>
-<p>提供接受可变参数的函数，并通过一个参数提供省略的参数数量，一般形式：type 函数( ,int ,…)</p>
+            <p>（本人是win10、VM workstation pro16、仅主机模式、Ret Hat8）</p>
+<h2 id="网络适配器"><a href="#网络适配器" class="headerlink" title="网络适配器"></a>网络适配器</h2><p>​        VMware workstation中，网络连接中有三种模式，第一种为桥接模式（VMnet0），此模式虚拟机与物理机地位相同，能够通过宿主机的网络适配器连接到外网，在局域网中就像一台独立的计算机。第二种为NAT模式（VMnet8）在此模式下，虚拟机将通过宿主机访问外网，虚拟机向外部网络发送的信息都将以宿主机的名义进行发送，也就是说，虚拟机和宿主机共用相同的IP。第三种为仅主机模式，此模式虚拟机只能与宿主机、其他虚拟机通信，一般情况无法连接上外网。（MAC和Windows有较大差别）</p>
+<h2 id="配置网卡信息"><a href="#配置网卡信息" class="headerlink" title="配置网卡信息"></a>配置网卡信息</h2><p>​        需要在网卡配置文件所在地址/etc/sysconfig/network-scripts/中，通过ifconfig查找网卡文件，一般为网卡信息中第一个，再通过vim编辑网卡文件。文件中，需要更改地址分配模式BOOTPROTO，共有dhcp、static、none三种模式，分别表示动态、静态、无。我改为static。并将是否启动ONBOOT改为yes。最后加上IP地址、子网掩码、网关地址、DNS地址。</p>
+<center><img src="/2020/09/27/Red-Hat8%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF/%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF%E4%BF%AE%E6%94%B9.jpg" class="" title="如图所示"></center>
+
+<p>​        修改完后，需要重启网卡设备。在第七版的命令为systemctl restart network。在第八版中，系统废除了network.service，所以要用nmcli命令进行重启：</p>
+<p>​        nmcli c reload</p>
+<p>​        nmcli c up ‘网卡名称’</p>
+<p>当提示成功后，可以通过ping 192.168.10.10检查是否真的连上了。</p>
+<p><strong>许多命令都需要root权限，如果不嫌麻烦就在每一条命令前加sudo，否则在其他命令前先输入su root命令开启权限</strong></p>
 
         </div>
 
@@ -236,7 +219,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/08/27/C%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8CC%E5%BA%93/">http://yoursite.com/2020/08/27/C%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8CC%E5%BA%93/</a></span>
+                        <span><a href="http://yoursite.com/2020/09/27/Red-Hat8%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF/">http://yoursite.com/2020/09/27/Red-Hat8%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF/</a></span>
                     </p>
                 
                 
@@ -260,7 +243,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C/"># C</a>
+                        <a href="/tags/Linux/"># Linux</a>
                     
                         
                 </span>
@@ -273,10 +256,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/09/27/Red-Hat8%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF/">Red Hat8配置网卡信息</a>
             
-            
-            <a class="next" rel="next" href="/2020/08/05/%E6%9C%89%E5%85%B3IO%E7%9A%84%E5%87%BD%E6%95%B0/">有关IO的函数</a>
+            <a class="next" rel="next" href="/2020/08/27/C%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8CC%E5%BA%93/">C预处理器和C库</a>
             
         </section>
 
