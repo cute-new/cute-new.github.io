@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="cute-new">
+
+
+    <meta name="subtitle" content="※">
+
+
+    <meta name="description" content="know more">
+
+
+
+<title>verilog的基本结构和类型 | Salted fish</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Salted fish</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Salted fish</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">verilog的基本结构和类型</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">cute-new</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 3, 2022&nbsp;&nbsp;16:33:13</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="verilog的基本结构"><a href="#verilog的基本结构" class="headerlink" title="verilog的基本结构"></a>verilog的基本结构</h2><p>Verilog模型由多个模块构成，模块还可以分为若干子模块。每个模块主要可以分为四个部分，即端口定义、I/O说明、内部信号声明和功能定义。</p>
+<p>总结构为：</p>
+<p>module 模块名()</p>
+<p>input 口；</p>
+<p>output 口；</p>
+<p>信号声明</p>
+<p>功能定义</p>
+<p>endmodule</p>
+<h3 id="一、端口定义"><a href="#一、端口定义" class="headerlink" title="一、端口定义"></a>一、端口定义</h3><p>格式：<strong>module name(port1,port2,……)</strong></p>
+<p>port1等为模块的IO口，作为与别的模块的联系。模块的最后需要用endmodule结束。</p>
+<p>在进行端口引用时，可以使用”.”符号标明为定义时规定的端口名。</p>
+<h3 id="二、I-O说明"><a href="#二、I-O说明" class="headerlink" title="二、I/O说明"></a>二、I/O说明</h3><p>格式：<strong>input [width-1：0]  port1;</strong></p>
+<p>​            <strong>output [width-1：0]  port2;</strong></p>
+<p>​            <strong>inout [width-1：0] port3;</strong></p>
+<p>对端口定义的各端口进行说明,描述其功能与位宽。I/O说明也可以写在端口定义中。</p>
+<p>格式：<strong>module name(input port1,output port2,……)</strong></p>
+<h3 id="三、内部信号说明"><a href="#三、内部信号说明" class="headerlink" title="三、内部信号说明"></a>三、内部信号说明</h3><p>格式：<strong>reg [width-1:0] argument1, argument2;</strong></p>
+<p>​            <strong>wire [width-1:0] argument1, argument2;</strong></p>
+<p>对内部各端口进行说明，描述其类型与位宽。</p>
+<h3 id="四、功能定义"><a href="#四、功能定义" class="headerlink" title="四、功能定义"></a>四、功能定义</h3><p>对模块的功能进行定义说明，共有三种方法进行描述。</p>
+<p>1.使用”assign”声明语句  例：assign a = b &amp; c;</p>
+<p>2.用实例原件  例：and #2 u1(q, a. b);</p>
+<p>​    (#2代表从输入到输出的延时时间）</p>
+<p>3.用”always”块  例：<strong>always @(posedge clk or posedge clr);</strong></p>
+<p>​                                    <strong>begin</strong></p>
+<p>​                                        <strong>if……；else……；</strong></p>
+<p>​                                    <strong>end</strong></p>
+<p>​    (“always”块既可用于描述组合逻辑，也可描述时序逻辑)</p>
+<h2 id="verilog数据类型"><a href="#verilog数据类型" class="headerlink" title="verilog数据类型"></a>verilog数据类型</h2><p>verilog HDL共有19种数据类型,即<strong>reg,wire,integer,parameter</strong>,large,medium,scalared,time,small,tri,trio,tril,triand,trior,trireg,vectored,wand,wor。</p>
+<h3 id="一、常量"><a href="#一、常量" class="headerlink" title="一、常量"></a>一、常量</h3><p>1.数字</p>
+<p>整型常量进制表示：b(二进制整数)d(十进制整数)h(十六进制整数)o(八进制整数)</p>
+<p>表达方式：</p>
+<p>&lt;width&gt; &lt;system&gt; &lt;number&gt; 对常数的完整表达</p>
+<p>&lt;system&gt; &lt;number&gt; 默认位宽为32</p>
+<p>&lt;number&gt; 默认位宽为32，进制为十进制</p>
+<p>(1)在常数表达中，x代表不定值，z或？代表高阻态。例：8’h4x 12’d?</p>
+<p>(2)负数在说明时，要在位宽前添加负号，减号不可放在其他位置</p>
+<p>(3)可用”_”增加数字的可读性只能用在具体数字之间，不能挨着进制</p>
+<p>2.参数</p>
+<p>使用parameter定义常量，格式：<strong>parameter name1 = expression;</strong></p>
+<h3 id="二、变量"><a href="#二、变量" class="headerlink" title="二、变量"></a>二、变量</h3><p>1.wire型</p>
+<p>格式：<strong>wire [n-1:0] name;</strong></p>
+<p>wire型数据常用来表示用以assign关键字指定的组合逻辑信号。IO信号类型默认类型为wire型。</p>
+<p>2.reg型</p>
+<p>格式：<strong>reg [n-1:0] name;</strong></p>
+<p>寄存器数据类型的关键字为reg，默认初始值为不定值。通常用来表示”always”模块内的指定信号，常代表触发器，并其中被赋值的每一个信号都必须定义成reg型。</p>
+<p>3.memory型</p>
+<p>格式：<strong>reg [n-1:0] name[m-1:0];</strong></p>
+<p>意义为m个n位的存储器，对存储器进行地址索引的表达式必须是常数表达式。不能直接对一个存储器进行赋值。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>cute-new</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2022/09/03/verilog%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E5%92%8C%E7%B1%BB%E5%9E%8B/">http://yoursite.com/2022/09/03/verilog%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E5%92%8C%E7%B1%BB%E5%9E%8B/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/verilog/"># verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/02/08/%E7%A3%81%E7%9B%98%E5%88%92%E5%88%86%E4%B8%8E%E9%93%BE%E6%8E%A5/">磁盘划分与链接</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© cute-new | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+
+
+
+    </div>
+</body>
+</html>

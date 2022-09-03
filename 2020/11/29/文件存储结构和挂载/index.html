@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="cute-new">
+
+
+    <meta name="subtitle" content="※">
+
+
+    <meta name="description" content="know more">
+
+
+
+<title>文件存储结构和挂载 | Salted fish</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Salted fish</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Salted fish</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">文件存储结构和挂载</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">cute-new</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2020&nbsp;&nbsp;19:35:19</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="文件系统层次化标准"><a href="#文件系统层次化标准" class="headerlink" title="文件系统层次化标准"></a><strong>文件系统层次化标准</strong></h2><p>​    在linux中，所有的文件都是从根目录“/”开始。并依据文件系统层次化标准（FHS）按照不同用途以树状的形式细分目录。虽然文件没有硬性规定存放在哪个目录下，但依据FHS进行存放是一个好的习惯。以下是在根目录下的次目录及其用途。</p>
+<table>
+<thead>
+<tr>
+<th>目录名称</th>
+<th>应放置文件的内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/boot</td>
+<td>开机所需文件，内核、开机菜单、所需配置文件等。若用grub开机管理程序，则会存在/boot/grub/目录</td>
+</tr>
+<tr>
+<td>/dev</td>
+<td>以文件形式存放任何接口与设备</td>
+</tr>
+<tr>
+<td>/etc</td>
+<td>存放配置文件，一般只有root能修改</td>
+</tr>
+<tr>
+<td>/home</td>
+<td>用户家目录，家目录有两种代号：<br />(~)代表目前这个用户的家目录<br />(~name)代表name的家目录</td>
+</tr>
+<tr>
+<td>/bin</td>
+<td>存放单用户模式下还可以操作的命令</td>
+</tr>
+<tr>
+<td>/lib</td>
+<td>开机时用到的函数库，以及在/bin或/sbin下面的命令要调用的函数</td>
+</tr>
+<tr>
+<td>/sbin</td>
+<td>开机过程中需要的命令，包括开机、修复、还原系统所需要的指令。</td>
+</tr>
+<tr>
+<td>/media</td>
+<td>用于挂载（可移除）设备文件的目录</td>
+</tr>
+<tr>
+<td>/opt</td>
+<td>放置第三方软件</td>
+</tr>
+<tr>
+<td>/root</td>
+<td>系统管理员的家目录。如果进入单用户模式</td>
+</tr>
+<tr>
+<td>/srv</td>
+<td>一些网络服务的数据文件目录</td>
+</tr>
+<tr>
+<td>/tmp</td>
+<td>任何人均可使用的“共享”临时目录，重要数据不可以放置。</td>
+</tr>
+<tr>
+<td>/var</td>
+<td>主要存放经常变化的文件，如日志</td>
+</tr>
+<tr>
+<td>/mnt</td>
+<td>暂时挂载某些额外的设备。</td>
+</tr>
+<tr>
+<td><strong>其他目录</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>/sys</td>
+<td>与/proc类似，也是一个虚拟文件系统，记录与内核相关的信息</td>
+</tr>
+<tr>
+<td>/lost+found</td>
+<td>使用标准的ext2/ext3文件系统格式才会产生的目录。当文件系统发生错误时将存放一些丢弃的文件片段</td>
+</tr>
+<tr>
+<td>/proc</td>
+<td>虚拟文件系统，内存当中的数据</td>
+</tr>
+</tbody></table>
+<h2 id="命名与分区"><a href="#命名与分区" class="headerlink" title="命名与分区"></a>命名与分区</h2><p>系统命名设备名称有一定的规律，系统不同名字也不同，但是命名顺序不由物理主板的插槽决定，而是由系统内核识别顺序决定。对于分区名称，分区的编号也不一定代表是分区个数。因为分区编号是能够认为指定的。</p>
+<p>每个硬盘都由大量扇区组成，每个扇区容量为512字节。第一个扇区保存着主引导记录和分区表信息，其中主引导记录占446字节，分区表占64字节，结束符占2字节。分区表中每记录一个分区信息需占用16字节，意味着第一个扇区最多能记录4个分区信息。</p>
+<p>如此一来，一个扇区所能记录的信息也太少了。所以可以将其中一个16字节的分区空间（扩展分区）用来指向另外一个分区，作为一个“指针”。扩展分区不能直接用，需要创建出数个逻辑分区使用。</p>
+<h2 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a><strong>挂载</strong></h2><p>当系统接入了一个设备时，win系统会自动显示可访问的图标。但在rhel中，接入的新设备只会以文件的形式出现在/dev文件下，需要将设备挂载到一个可以访问新设备的文件才行。</p>
+<h3 id="挂载指令"><a href="#挂载指令" class="headerlink" title="挂载指令"></a><strong>挂载指令</strong></h3><p>mount命令用于挂载文件，一般是硬件使用前最后一步操作。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>挂载所有/etc/fstab中定义的文件系统</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>指定文件系统的类型</td>
+</tr>
+</tbody></table>
+<p>但是用mount挂载的话，重启后就会失效。所以还需按照一定格式把挂载信息写入到/etc/fstab文件中，格式为“设备文件 挂载目录 格式类型 权限选项 是否被封 是否自检”。</p>
+<p>umount命令用于撤销已挂载的设备文件，只用写已挂载的设备就行。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>cute-new</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/11/29/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E6%8C%82%E8%BD%BD/">http://yoursite.com/2020/11/29/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E6%8C%82%E8%BD%BD/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/02/08/%E7%A3%81%E7%9B%98%E5%88%92%E5%88%86%E4%B8%8E%E9%93%BE%E6%8E%A5/">磁盘划分与链接</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/28/Linux-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/">Linux 用户身份与文件权限</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© cute-new | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+
+
+
+    </div>
+</body>
+</html>

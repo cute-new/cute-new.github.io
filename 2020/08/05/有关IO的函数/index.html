@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="cute-new">
+
+
+    <meta name="subtitle" content="※">
+
+
+    <meta name="description" content="know more">
+
+
+
+<title>有关IO的函数 | Salted fish</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Salted fish</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Salted fish</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">有关IO的函数</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">cute-new</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 5, 2020&nbsp;&nbsp;13:07:03</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="输入函数"><a href="#输入函数" class="headerlink" title="输入函数"></a><strong>输入函数</strong></h2><h3 id="scanf（综合）："><a href="#scanf（综合）：" class="headerlink" title="scanf（综合）："></a>scanf（综合）：</h3><p>​        依据不同的格式说明符可以录入不同类型的数据。scanf在输入时会自动跳过空白字符，直到第一个非空白字符开始读取，读取到与格式说明符不同的字符结束，并把第一个与格式说明符不同的字符放回缓冲区（%c除外，它能够读取空白字符）。是残废返回成功读取的项数，若是文件结尾，则返回EOF（-1）。</p>
+<p>以下为部分常用格式说明符以及对应类型：</p>
+<table>
+<thead>
+<tr>
+<th>格式说明符</th>
+<th>%d</th>
+<th>%f</th>
+<th>%lf</th>
+<th>%c</th>
+<th>%s</th>
+<th>%p</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对应类型</td>
+<td>int</td>
+<td>float</td>
+<td>double</td>
+<td>char</td>
+<td>string</td>
+<td>type*</td>
+</tr>
+</tbody></table>
+<p>注意：</p>
+<p>​    输入的格式需要严格按照scanf(“”)内的格式。</p>
+<p>​    %s不能录入空白字符，包括换行符，所以只能读取一个连续的单词。</p>
+<h3 id="getchar-（字符）："><a href="#getchar-（字符）：" class="headerlink" title="getchar()（字符）："></a><strong>getchar()（字符）：</strong></h3><p>​        getchar()没有参数，并返回下一个字符。可以录入换行符。</p>
+<h3 id="gets-（字符串）："><a href="#gets-（字符串）：" class="headerlink" title="gets()（字符串）："></a><strong>gets()（字符串）：</strong></h3><p>​        gets的参数可以为数组名、char指针。gets读取整行输入，直到换行符停止，并将换行符<strong>替换</strong>为空字符，使之变为字符串（缓冲区内无换行符）。gets返回参数的指针。</p>
+<p>缺点：没有限制读取长短，容易导致缓冲区溢出，有安全隐患。</p>
+<h3 id="fgets-（字符串）："><a href="#fgets-（字符串）：" class="headerlink" title="fgets()（字符串）："></a><strong>fgets()（字符串）：</strong></h3><p>​        fgets的参数有三个，第一个为地址，第二个为读取字符的最大数量（包括空字符），第三个为要读入的文件。fgets读取到换行符时，将换行符储存在字符串中，并返回第一个参数的地址，若是读到文件末尾，则返回空指针（NULL）。</p>
+<h3 id="gets-s-（字符串）："><a href="#gets-s-（字符串）：" class="headerlink" title="gets_s()（字符串）："></a><strong>gets_s()（字符串）：</strong></h3><p>​        和fgets类似，但只从标准输入中读取数据，并且不会储存换行符而是丢弃它，当字符数超过最大数量时，将首字符设置为空字符并丢弃随后的输入直到换行符或结尾，返回空指针，有可能终止或退出程序。</p>
+<h2 id="输出函数"><a href="#输出函数" class="headerlink" title="输出函数"></a><strong>输出函数</strong></h2><h3 id="printf（综合）："><a href="#printf（综合）：" class="headerlink" title="printf（综合）："></a><strong>printf（综合）：</strong></h3><p>​        依据不同的格式说明符可以录入不同类型的数据。printf返回打印字符的个数，若有输出错误则返回一个负值。其格式说明符与对应类型与scanf相似，不过double类型的转换说明符可用%f。</p>
+<h3 id="putchar-（字符）："><a href="#putchar-（字符）：" class="headerlink" title="putchar()（字符）："></a><strong>putchar()（字符）：</strong></h3><p>​        putchar()的参数为想要打印的字符或变量，并返回原字符。</p>
+<h3 id="puts-（字符串）："><a href="#puts-（字符串）：" class="headerlink" title="puts()（字符串）："></a><strong>puts()（字符串）：</strong></h3><p>​        puts()的参数可以为数组名、char指针、字符串字面量，遇到空字符就停止输出。并自动在末尾为字符串加上换行符。若执行曾公返回非负数，失败则返回EOF。</p>
+<h3 id="fputs-（字符串）："><a href="#fputs-（字符串）：" class="headerlink" title="fputs()（字符串）："></a><strong>fputs()（字符串）：</strong></h3><p>​        fputs有两个参数，第一个为地址，第二个为要输出的文件。若执行成功，返回0，失败则返回EOF。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>cute-new</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/08/05/%E6%9C%89%E5%85%B3IO%E7%9A%84%E5%87%BD%E6%95%B0/">http://yoursite.com/2020/08/05/%E6%9C%89%E5%85%B3IO%E7%9A%84%E5%87%BD%E6%95%B0/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C/"># C</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/08/27/C%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8CC%E5%BA%93/">C预处理器和C库</a>
+            
+            
+            <a class="next" rel="next" href="/2020/07/28/C%E6%8C%89%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/">C按位运算符</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© cute-new | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+
+
+
+    </div>
+</body>
+</html>

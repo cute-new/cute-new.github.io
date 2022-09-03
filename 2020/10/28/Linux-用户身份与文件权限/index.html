@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="cute-new">
+
+
+    <meta name="subtitle" content="※">
+
+
+    <meta name="description" content="know more">
+
+
+
+<title>Linux 用户身份与文件权限 | Salted fish</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Salted fish</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Salted fish</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Linux 用户身份与文件权限</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">cute-new</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 28, 2020&nbsp;&nbsp;13:33:30</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Linux系统通过对文件的权限来管理用户，并对用户分配唯一标识UID。</p>
+<p>​    ROOT管理员UID：0</p>
+<p>​    系统用户UID：1~999</p>
+<p>​    普通用户UID：999~</p>
+<p>root管理员具有最高权限，可以控制系统的任意文件，同样可以对其他账户进行操作。依据不同需求，可以将用户划分为组并通过用户组号码GID标识。root可以为一组的用户统一分配权限和任务。</p>
+<h2 id="管理用户"><a href="#管理用户" class="headerlink" title="管理用户"></a>管理用户</h2><h3 id="创建-删除用户"><a href="#创建-删除用户" class="headerlink" title="创建/删除用户"></a>创建/删除用户</h3><p>useradd命令创建用户。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-d</td>
+<td>指定用户家目录（默认为/home/username）</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>指定账户到期时间，格式：YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>指定该用户UID</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>指定一个初始的用户基本组（必须已存在）</td>
+</tr>
+<tr>
+<td>-G</td>
+<td>指定一个或多个扩展组</td>
+</tr>
+<tr>
+<td>-N</td>
+<td>取消与用户同名的基本用户组</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>指定该用户的默认Shell解释器</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>备注</td>
+</tr>
+</tbody></table>
+<p>如果默认Shell解释器设置为/sbin/bologin或/bin/false则无法登录此系统用户。</p>
+<p>userdel命令删除用户。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f</td>
+<td>强制删除用户</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>同时删除用户及用户家目录</td>
+</tr>
+</tbody></table>
+<h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h3><p>usermod命令可以修改用户的属性。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>填写用户备注信息</td>
+</tr>
+<tr>
+<td>-d -m</td>
+<td>md连用，可重新指定用户对家目录并自动把旧数据转移过去</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>账户到期时间，格式：YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>变更所属用户组</td>
+</tr>
+<tr>
+<td>-G</td>
+<td>变更扩展用户组</td>
+</tr>
+<tr>
+<td>-L</td>
+<td>锁定用户禁止其登录系统</td>
+</tr>
+<tr>
+<td>-U</td>
+<td>解锁用户，允许登录系统</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>变更默认终端</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>修改用户UID</td>
+</tr>
+</tbody></table>
+<p>passwd命令可以修改用户登录相关信息。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-l</td>
+<td>锁定用户，禁止登录</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>解除锁定，允许用户登录</td>
+</tr>
+<tr>
+<td>–stdin</td>
+<td>允许通过标准输入修改用户密码，如echo”?”|passwd –stdin Username</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>让用户可以用空密码登录</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>强制让用户下次登录时修改密码</td>
+</tr>
+<tr>
+<td>-S</td>
+<td>显示用户的密码是否被锁定，以及密码所采用的加密算法名称</td>
+</tr>
+</tbody></table>
+<p>etc/passwd中可以看到用户名、UID、Shell解释器。</p>
+<h3 id="组操作"><a href="#组操作" class="headerlink" title="组操作"></a>组操作</h3><p>groupadd、groupmod、groupdel类似于用户用户命令。etc/group可以看到用户组名、GID、扩展用户组名。</p>
+<h2 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h2><h3 id="一般权限"><a href="#一般权限" class="headerlink" title="一般权限"></a>一般权限</h3><p>不同字符区分不同文件。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-</td>
+<td>普通文件</td>
+</tr>
+<tr>
+<td>d</td>
+<td>目录文件</td>
+</tr>
+<tr>
+<td>l</td>
+<td>链接文件</td>
+</tr>
+<tr>
+<td>b</td>
+<td>块设备文件</td>
+</tr>
+<tr>
+<td>c</td>
+<td>字符设备文件</td>
+</tr>
+<tr>
+<td>p</td>
+<td>管道文件</td>
+</tr>
+</tbody></table>
+<p>文件的读写执行权限可简写为（rwx），文件所有者、文件所属组、其他用户都相同。</p>
+<table>
+<thead>
+<tr>
+<th>权限项</th>
+<th>读</th>
+<th>写</th>
+<th>执行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符表示</td>
+<td>r</td>
+<td>w</td>
+<td>x</td>
+</tr>
+<tr>
+<td>数字表示</td>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>下图为某文件的属性信息。</p>
+<center><img src="/2020/10/28/Linux-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E4%BF%A1%E6%81%AF.png" class="" title="如图所示"></center>
+
+<p>第一个-为文件类型代表普通文件。接下来六个字符为访问权限。第一个root代表属主，第二个代表属组。同样也能看到文件大小、修改时间等。</p>
+<h3 id="特殊权限"><a href="#特殊权限" class="headerlink" title="特殊权限"></a>特殊权限</h3><p><strong>SUID</strong>（Set User ID）u+t</p>
+<p>只有可执行的二进制程序，可以加上SUID特殊权限位。当文件设置了此权限后，执行该文件的时候会临时获得此文件属主的权限，当需要调用其他文件时是以此文件属主身份调用。</p>
+<p><strong>SGID</strong>（Set Group ID）g+t</p>
+<p>有点类似SUID。当文件设置了SUID时，用户执行此文件就会临时拥有属组的权限。</p>
+<p><strong>SBIT</strong>（Sticky Bit）0+t</p>
+<p>当对某个目录设置SBIT时，用户在此目录中只能删除自己的文件，防止他人删除文件。</p>
+<p>想要设置以上三个权限，可以通过chmod命令操作。chmod命令的格式为chmod 用户类型 +/-参数 文件。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>用户类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>u</td>
+<td>user</td>
+</tr>
+<tr>
+<td>g</td>
+<td>group</td>
+</tr>
+<tr>
+<td>o</td>
+<td>others</td>
+</tr>
+<tr>
+<td>a</td>
+<td>all</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>名字</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>X</td>
+<td>特殊执行权限</td>
+<td>只有当文件为目录文件，或者其他类型的用户有可执行权限时，才将文件权限设置可执行。</td>
+</tr>
+<tr>
+<td>s</td>
+<td>SUID/SGID</td>
+<td>当文件被执行时，根据指定的用户类型设置文件的SUID/SGID权限</td>
+</tr>
+<tr>
+<td>t</td>
+<td>SBIT粘滞位</td>
+<td>设置SBIT</td>
+</tr>
+</tbody></table>
+<p>chmod命令同样可以设置rwx权限，使用方法类似，还可以使用数字进行设置。</p>
+<p>chown命令可以修改文件的属主和属组，格式为chown 属主：属组 文件名。</p>
+<h3 id="隐藏权限"><a href="#隐藏权限" class="headerlink" title="隐藏权限"></a>隐藏权限</h3><p>通过chattr设置文件的隐藏权限。添加隐藏权限需要在参数前加+，移除则是-。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>b</td>
+<td>不再修改文件或目录的存取时间</td>
+</tr>
+<tr>
+<td>D</td>
+<td>检查压缩文件中的错误</td>
+</tr>
+<tr>
+<td>d</td>
+<td>使用dump命令备份时忽略本文件/目录</td>
+</tr>
+<tr>
+<td>c</td>
+<td>默认将文件或目录进行压缩</td>
+</tr>
+<tr>
+<td>u</td>
+<td>当删除该文件后保留其在硬盘的数据，方便恢复</td>
+</tr>
+<tr>
+<td>t</td>
+<td>让文件系统支持尾部合并（tail-merging）</td>
+</tr>
+<tr>
+<td>x</td>
+<td>可以直接访问压缩文件中的内容</td>
+</tr>
+</tbody></table>
+<p>通过lsattr命令显示文件的隐藏权限。</p>
+<h3 id="访问控制列表（ACL）"><a href="#访问控制列表（ACL）" class="headerlink" title="访问控制列表（ACL）"></a>访问控制列表（ACL）</h3><p>以上是对某类用户（文件所有者、文件所属组、其他用户）进行权限控制，ACL可以对某个用户进行单独权限控制。格式为setfacl 参数 要设置的用户类型：用户名：权限 文件。</p>
+<p>通过setfacl命令可以为某个用户设置权限。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-m</td>
+<td>配置ACL参数，不可与-x连用</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>删除ACL参数，不可与-m连用</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>移除所有ACL配置参数</td>
+</tr>
+<tr>
+<td>-k</td>
+<td>移除默认ACL配置参数</td>
+</tr>
+<tr>
+<td>-R</td>
+<td>递归配置ACL</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>对目录配置默认ACL参数</td>
+</tr>
+</tbody></table>
+<p>设置ACL后文件属性信息上权限后的.会改为+。</p>
+<p>getfacl命令可以查看文件上设置的ACL信息。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>cute-new</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/10/28/Linux-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/">http://yoursite.com/2020/10/28/Linux-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/11/29/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E6%8C%82%E8%BD%BD/">文件存储结构和挂载</a>
+            
+            
+            <a class="next" rel="next" href="/2020/09/27/Red-Hat8%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF/">Red Hat8配置网卡信息</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© cute-new | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+
+
+
+    </div>
+</body>
+</html>
